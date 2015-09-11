@@ -22,7 +22,41 @@ var Promise = require('bluebird');
  */
 
 var combineFirstLineOfManyFiles = function (filePaths, writePath) {
-  // YOUR CODE HERE
+
+  return Promise.all(filePaths.map(function(path){
+    return fs.readFile(path,'utf8',function(err,data){
+      if(err) throw err;
+      console.log(data);
+      return data;
+    });
+  }))
+  .then(console.log.bind(console));
+
+
+
+
+
+
+
+
+
+
+
+  // var fileContents = [];
+  // var files = [];
+  // filePaths.forEach(function(file){
+  //   files.push(fs.readFile(file,'utf8',function(err,data){
+  //     console.log(data);
+  //     fileContents.push(data.split('\n')[0]);
+  //   }));
+  // });
+  // return Promise.all(files)
+  // .then(fileContents.join('\n'))
+  // .then(fs.writeFile(writePath,function(err){
+  //   if(err) throw err;
+  //   console.log("success!");
+  // }))
+  // .catch(console.log.bind(console));
 };
 
 module.exports = combineFirstLineOfManyFiles;

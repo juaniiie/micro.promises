@@ -162,7 +162,7 @@ describe('Bare Minimum -', function() {
     var apiURL = 'https://api.github.com/zen';
 
     // For this test we'll hit github's zen api endpoint. It requires the User-Agent header to be set, so instead of passing the 
-    // `apiURL` directly into `request`, we'll pass this options hash, containing the url and the needed header, instead.
+    // `apiURL` directly into `request`, we'll pass this options hash, containing the url and the needed header, instanceOfad.
     var options = {
       uri: apiURL,
       headers: { 'User-Agent': 'someUserAgent' }

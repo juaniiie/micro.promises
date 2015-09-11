@@ -19,6 +19,14 @@ var getStatusCode = function (url, callback) {
 // and any errors occuring with the request will be available in the `catch` block
 var getStatusCodeWithPromise = function (url) {
   // YOUR CODE HERE
+  return new Promise(function(resolve, reject) {
+    request(url, function(err, response) {
+      if(err){
+        reject(err);
+      }
+      resolve(response.statusCode);
+    });
+  });
 };
 
 module.exports = getStatusCodeWithPromise;
