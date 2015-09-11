@@ -22,41 +22,30 @@ var Promise = require('bluebird');
  */
 
 var combineFirstLineOfManyFiles = function (filePaths, writePath) {
+  var files = filePaths.map(function(path){
+   return new Promise(function(resolve, reject){
+      fs.readFile(path,'utf8',function(err,data){
+        if(err) reject(err);
+        resolve(data);
+      });
+    })
+  });
 
-  return Promise.all(filePaths.map(function(path){
-    return fs.readFile(path,'utf8',function(err,data){
-      if(err) throw err;
-      console.log(data);
-      return data;
+  return Promise.all(files)
+  .then(function(fileArr){
+    return fileArr.map(function(file){
+      return file.split('\n')[0];
     });
-  }))
-  .then(console.log.bind(console));
+  })
+  .then(function(firstLines){
+    return new Promise(function(resolve, reject){
+      fs.writeFile(writePath, firstLines.join('\n'), 'utf8', function(err){
+        if(err) reject(err);
+        resolve();
+      })
+    });
+  });
 
-
-
-
-
-
-
-
-
-
-
-  // var fileContents = [];
-  // var files = [];
-  // filePaths.forEach(function(file){
-  //   files.push(fs.readFile(file,'utf8',function(err,data){
-  //     console.log(data);
-  //     fileContents.push(data.split('\n')[0]);
-  //   }));
-  // });
-  // return Promise.all(files)
-  // .then(fileContents.join('\n'))
-  // .then(fs.writeFile(writePath,function(err){
-  //   if(err) throw err;
-  //   console.log("success!");
-  // }))
-  // .catch(console.log.bind(console));
 };
 
 module.exports = combineFirstLineOfManyFiles;
